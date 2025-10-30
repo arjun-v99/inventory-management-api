@@ -10,7 +10,7 @@ class DynamicPricingService
     {
         $price = $stock->product->base_price; // base price
 
-        // 1️⃣ Discount if near expiry
+        //Discount if near expiry
         if ($stock->expires_at) {
             $daysLeft = now()->diffInDays($stock->expires_at, false);
 
@@ -19,17 +19,18 @@ class DynamicPricingService
             }
         }
 
-        // 2️⃣ Increase if low stock
+        //Increase price if stock < 10
         if ($stock->quantity < 10) {
-            $price *= 1.3; // +30% 
+            $price *= 1.3; //by +30% 
         }
 
+        //Increase price if stock > 10 and less than 50
         if ($stock->quantity > 10 && $stock->quantity < 50) {
-            $price *= 1.3; // +10% 
+            $price *= 1.3; //by +10% 
         }
 
         if ($stock->quantity > 100) {
-            $price *= 0.8; // -20% 
+            $price *= 0.8; //by -20% 
         }
 
         return round($price, 2);
