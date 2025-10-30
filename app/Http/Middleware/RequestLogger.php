@@ -16,7 +16,11 @@ class RequestLogger
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Log::info($request->fullUrl());
+        $method = $request->method();
+        $path = $request->path();
+        $message = "Request Method: " . $method . ". Path: " . $path;
+
+        Log::channel('request_log')->info($message);
         return $next($request);
     }
 }
