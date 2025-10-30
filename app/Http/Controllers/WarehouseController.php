@@ -12,7 +12,7 @@ class WarehouseController extends Controller
     public function getWareHouseReport(Request $request, $id)
     {
         try {
-            $warehouse = Warehouse::with(['stock.product'])
+            $warehouse = Warehouse::with('stock.product')
                 ->findOrFail($id);
 
             $result = $warehouse->stock->map(function ($stock) {
